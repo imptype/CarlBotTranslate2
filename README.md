@@ -14,3 +14,8 @@ This is a newbie guide to run your own instance, incase mine gets overcrowded.
 4. Refresh the website, then click run.
 
 Your base URL should look like this `https://<replname>.<username>.repl.co`.
+
+## Links
+🔗 Source: https://replit.com/@imp7/CarlBotTranslate
+
+🔗 Github: https://github.com/imptype/CarlBotTranslate
