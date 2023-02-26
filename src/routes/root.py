@@ -31,5 +31,6 @@ async def root(request : Request):
     'Size: {:,}'.format(cache._last_bytes),
     'Busy: {}'.format(lock.locked()),
     '',
-    'Source: <a href="https://replit.com/@imp7/CarlBotTranslate">https://replit.com/@imp7/CarlBotTranslate</a>'
+    'Source: <a href="https://replit.com/@imp7/CarlBotTranslate">https://replit.com/@imp7/CarlBotTranslate</a>',
+    'Github: <a href="https://github.com/imptype/CarlBotTranslate">https://github.com/imptype/CarlBotTranslate</a>'
   ]))
