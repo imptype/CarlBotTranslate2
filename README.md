@@ -1,0 +1,2 @@
+# CarlBotTranslate
+Screenshots Translations API
