@@ -46,7 +46,8 @@ async def translate(request : Request):
     
     # Handle screenshots 1 at a time, queue system
     stats.waiting += 1
-    if lock.acquire(timeout = configs['QUEUE_TIMEOUT']):
+    try:
+      await asyncio.wait_for(lock.acquire(), configs['QUEUE_TIMEOUT'])
       stats.waiting -= 1
 
       # Wrapped in try to make sure lock is released
@@ -115,7 +116,7 @@ async def translate(request : Request):
       finally:
         lock.release()
     
-    else:
+    except asyncio.TimeoutError:
       stats.waiting -= 1
       stats.timeout += 1
       return 'Request timed out, API is busy right now.'
