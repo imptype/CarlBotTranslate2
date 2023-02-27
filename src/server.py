@@ -3,7 +3,7 @@ Starts the webserver and inits selenium and cache.
 Also the place where all the configs/constants are stored.
 """
 
-from threading import Lock
+from asyncio import Lock
 from .classes.ChromeDriver import ChromeDriver
 from .classes.ExpiringCache import ExpiringCache
 from .classes.Stats import Stats
