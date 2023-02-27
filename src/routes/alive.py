@@ -10,7 +10,7 @@ from fastapi import APIRouter, Request
 router = APIRouter()
 secret = os.getenv('SECRET')
 
-@router.api_route('/alive{}'.format(secret), methods = ['GET', 'HEAD'])
+@router.api_route('/alive{}'.format(secret), methods = ['GET', 'HEAD'], include_in_schema = False)
 async def alive(request: Request):  
   stats = request.app.stats
   stats.pinged += 1
