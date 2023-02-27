@@ -20,7 +20,9 @@ async def translate(request : Request):
   stats = request.app.stats
   lock = request.app.lock
   configs = request.app.configs
-  query = str(request.query_params)
+  query_dict = dict(request.query_params)
+  query_dict.pop('t', None) # discord needs random timestamp/number
+  query = urlencode(tuple(query_dict.items()))
   loop = asyncio.get_event_loop()
 
   # could check if request from discord/google here BUT makes it 1-3 sec slower
@@ -33,7 +35,7 @@ async def translate(request : Request):
     # Check if request is malformed
     malformed = True
     if request.query_params:
-      keys, values = zip(*dict(request.query_params).items())
+      keys, values = zip(*query_dict.items())
       if len(keys) == 4 and keys == ('hl', 'sl', 'tl', 'text'):
         if all([1 < len(val) < 6 for val in values[:3]]):
           if not values[3].isspace() and 1 < len(values[3]) < 5000:
