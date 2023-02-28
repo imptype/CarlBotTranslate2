@@ -20,7 +20,7 @@ class ExpiringCache(dict):
     self.max_bytes = max_bytes
     self._last_bytes = 0 # record of size during last refresh
 
-  def refresh(self): 
+  def _refresh(self): 
     if not self: # empty
       return
     now = time.monotonic()
@@ -39,7 +39,7 @@ class ExpiringCache(dict):
       del self[key]
   
   def get(self, key, default = None): # dict.get(...)
-    self.refresh()
+    self._refresh()
     value = super().get(key, default)
     if value:
       value = value[0]
@@ -47,5 +47,5 @@ class ExpiringCache(dict):
     return value
     
   def __setitem__(self, key, value): # dict[key] = ...
-    self.refresh()
+    self._refresh()
     super().__setitem__(key, (value, time.monotonic())) 
