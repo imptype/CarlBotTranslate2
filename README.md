@@ -1,10 +1,11 @@
-# CarlBotTranslate
-This is a helper API that returns screenshots of [Google Translate](https://translate.google.com) translations.
+# CarlBotTranslateV2
+This is a helper API that generates images with [Google Translate](https://translate.google.com) translations.
 
 ## Example: /translate?hl=en&sl=en&tl=es&text=item
 ![](https://i.imgur.com/eCFcj10.png)
 
 ## Running
+
 This is a newbie guide to run your own instance, incase mine gets overcrowded.
 
 1. Create a python repl on [Replit.com](https://replit.com).
