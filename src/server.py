@@ -3,39 +3,29 @@ Starts the webserver and inits selenium and cache.
 Also the place where all the configs/constants are stored.
 """
 
-from asyncio import Lock
-from .classes.ChromeDriver import ChromeDriver
+from asyncio import Semaphore
 from .classes.ExpiringCache import ExpiringCache
 from .classes.Stats import Stats
 from .events.middleware import middleware
 from .routes import alive, root, translate
 from fastapi import FastAPI
-import uvicorn
 
 configs = {
-  'WIDTH' : 1024, 
-  'HEIGHT' : 400, #+50 -181 is Y padding without removing below elements
-  'BASE_URL' : 'https://translate.google.com?',
-  'QUEUE_TIMEOUT' : 60 * 2, # 2 mins to timeout
-  'ELEMENT_TIMEOUT' : 20, # 20 seconds to wait for element to appear
-  'CHECK_ELEMENT' : 'ryNqvb', # can change in the future, need to update once in a while
-  'DELETE_ELEMENTS' : [ # elements to delete that are useless/takes up space
-    'asdasd', # test
-    'pGxpHc', # Google Translate following banner div
-    'VjFXz', # behind banner padding div
-    'hgbeOc EjH7wc', # text,images,documents,websites div
-    #'zXU7Rb', # Detect Language, English, etc div
-    'VlPnLc' # history, saved, contribute div
-    ]
+  'WIDTH' : 1000, # max width of translated image, excludes padding
+  'HEIGHT' : 2000, # max height, in pixels
+  'PADDING' : 15, # border padding of image in pixels
+  'SPACING' : 0, # spacing between new lines in pixels, default was 4
+  'SIZE' : 30, # text/font size
+  'TIMEOUT' : 60 * 2, # 2 mins to queue timeout
+  'URL' : 'https://translate.google.com?', # base url
 }
 
 def run():
   
   app = FastAPI()
-  app.driver = ChromeDriver(configs['WIDTH'], configs['HEIGHT'])
   app.cache = ExpiringCache(60 * 10, 30, 1024 * 1024 * 200) # keep for 10 mins, 30 sec cooldown, max 200 MB
   app.stats = Stats()
-  app.lock = Lock()
+  app.semaphore = Semaphore(5) # queue size
   app.configs = configs
 
   app.middleware('http')(middleware) # reverse deco with args
@@ -43,5 +33,3 @@ def run():
   app.include_router(alive.router)
   app.include_router(root.router)
   app.include_router(translate.router)
-
-  uvicorn.run(app, host = '0.0.0.0')
