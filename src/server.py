@@ -7,7 +7,7 @@ from asyncio import Semaphore
 from .classes.ExpiringCache import ExpiringCache
 from .classes.Stats import Stats
 from .events.middleware import middleware
-from .routes import alive, root, translate
+from .routes import root, translate
 from googletrans import Translator
 from PIL import ImageFont 
 from fastapi import FastAPI
@@ -36,6 +36,5 @@ def run():
 
   app.middleware('http')(middleware) # reverse deco with args
 
-  app.include_router(alive.router)
   app.include_router(root.router)
   app.include_router(translate.router)
