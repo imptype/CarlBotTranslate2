@@ -3,13 +3,15 @@
 Returns the translation screenshot if successful.
 """
 
+import io
 import asyncio
 from fastapi import APIRouter, Request, Response
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
-router = APIRouter()
+router = APIRouter()+
+translator = 
+
+FONT = ImageFont.truetype('arial-unicode.ttf', size = SIZE)
+TRANSLATOR = Translator(raise_exception = True)
 
 @router.get('/translate')
 async def translate(request : Request):
@@ -18,7 +20,8 @@ async def translate(request : Request):
   driver = request.app.driver
   cache = request.app.cache
   stats = request.app.stats
-  lock = request.app.lock
+  semaphore = request.app.semaphore
+  translator = request.app.translator
   configs = request.app.configs
   query_dict = dict(request.query_params)
   query_dict.pop('t', None) # discord needs random timestamp/number
@@ -36,80 +39,43 @@ async def translate(request : Request):
     malformed = True
     if request.query_params:
       keys, values = zip(*query_dict.items())
-      if len(keys) == 4 and keys == ('hl', 'sl', 'tl', 'text'):
-        if all([1 < len(val) < 6 for val in values[:3]]):
-          if not values[3].isspace() and 1 < len(values[3]) < 5000:
+      if len(keys) == 3 and keys == ('sl', 'tl', 'text'):
+        if all([1 < len(val) < 6 for val in values[:2]]):
+          if not values[2].isspace() and 1 < len(values[2]) < 4000: # max 4k in discord message
             malformed = False
     if malformed:
       stats.malformed += 1
       return 'Request is malformed, import the tag again to fix it.'
     
-    # Handle screenshots 1 at a time, queue system
+    # Handle screenshots with queue system
     stats.waiting += 1
     try:
-      await asyncio.wait_for(lock.acquire(), configs['QUEUE_TIMEOUT'])
+      await asyncio.wait_for(semaphore.acquire(), configs['TIMEOUT'])
       stats.waiting -= 1
 
       # Wrapped in try to make sure lock is released
       try:
+        
+        # Translate first
+        text = translator.translate(text, values[1], values[0])
 
-        def blocking(): # stuffed selenium code here since most of it is blocking
-          
-          # Gotos the URL
-          driver.get(configs['BASE_URL'] + query)
-        
-          # Wait for translation to load by checking this element
-          element_present = EC.presence_of_element_located((By.CLASS_NAME, configs['CHECK_ELEMENT']))
-          try:
-            WebDriverWait(driver, 10).until(element_present)
-          except: # give up waiting
-            stats.skipped += 1
-            pass
-  
-          # Delete some elements
-          scripts = ';'.join(
-            'try{document.querySelector(".' + e.replace(' ', '.') + '").remove()}catch{}'
-            for e in configs['DELETE_ELEMENTS']
-          )
-          driver.execute_script(scripts)
-        
-          # Stop loading page
-          driver.execute_script('window.stop()')
-        
-          # Get window size
-          width = driver.execute_script('return document.documentElement.scrollWidth')
-          height = driver.execute_script('return document.documentElement.scrollHeight')
-        
-          # Cancel screenshotting operation if its too big, prevents out of memory/crash/timeout
-          # Max is around 5000x5000, 25 million pixels
-          if width * height > 25000000:
-            stats.toobig += 1
-            return 1, 'Too big: {}x{}'.format(width, height)
-        
-          # Update window size if needed
-          size = driver.get_window_size()
-          changedSize = False
-          if width != size['width'] or height != size['height']:
-            driver.set_window_size(width, height)
-            changedSize = True
-        
-          # Take screenshot
-          image = driver.get_screenshot_as_png()
-          
-          # Add to cache
-          cache[query] = image
-        
-          # Revert size if changed for future requests
-          if changedSize:
-            driver.set_window_size(configs['WIDTH'], configs['HEIGHT'])
+        def blocking(): # blocking pillow code
+          # Draw image
+          im = Image.new('1', (0, 0))
+          draw = ImageDraw.Draw(im)
+          left, upper, right, lower = draw.textbbox((0, 0), text, configs['FONT'], spacing = configs['SPACING'])
+          height = lower - upper + configs['PADDING'] * 2)
+          if height > configs['HEIGHT']:
+            height = configs['HEIGHT']
+          im = Image.new('1', (right - left + configs['PADDING'] * 2, height, 0)
+          draw = ImageDraw.Draw(im)
+          draw.text((- left + configd['PADDING'], - upper + configs['PADDING']), text, 1, configs['FONT'], spacing = configs['SPACING'])
+          return im.save(io.BytesIO(), 'PNG')
 
-          return 0, image
-
-        fail, image = await loop.run_in_executor(None, blocking)
-        if fail:
-          return image # too big text
-
+        # Draw image to memory
+        image = await loop.run_in_executor(None, blocking)
         stats.success += 1
+                         
       except Exception as error:
         stats.failed += 1
         raise error
@@ -120,6 +86,6 @@ async def translate(request : Request):
       stats.waiting -= 1
       stats.timeout += 1
       return 'Request timed out, API is busy right now.'
-    
+                         
   # Return screenshot
   return Response(image, media_type = 'image/png')
