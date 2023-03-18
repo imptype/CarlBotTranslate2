@@ -29,7 +29,7 @@ def run():
   app.semaphore = Semaphore(5) # queue size
   app.configs = configs
   app.translator = Translator(raise_exception = True)
-  app.font = ImageFont.truetype('assets/Arial-Unicode-MS.ttf', size = 30) # path to ttf and font size
+  app.font = ImageFont.truetype('src/assets/Arial-Unicode-MS.ttf', size = 30) # path to ttf and font size
   # this file covers glyphs for all languages decently, a drawback is emojis/special symbols are missing
   # due to max 65k glpyhs in ttf files but unicode has around 150k glyphs, presently pillow can only use 1
   # file at a time, a 'fallback' solution is in progress: https://github.com/python-pillow/Pillow/pull/6926
