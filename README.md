@@ -1,6 +1,8 @@
 # CarlBotTranslateV2
 This is a helper API that generates images with [Google Translate](https://translate.google.com) translations.
 
+This is a faster but more basic version of the original: https://github.com/imptype/CarlBotTranslate.
+
 ## Example: /translate?hl=en&sl=en&tl=es&text=item
 ![](https://i.imgur.com/eCFcj10.png)
 
