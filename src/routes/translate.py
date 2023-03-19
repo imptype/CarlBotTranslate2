@@ -56,7 +56,7 @@ async def translate(request : Request):
         
         # Translate first
         try:
-          text = (await loop.run_in_executor(None, translator.translate, query_dict['text'], query_dict['tl'], query_dict['sl'])).result().text
+          text = (await loop.run_in_executor(None, translator.translate, query_dict['text'], query_dict['tl'], query_dict['sl'])).text
         except ValueError as error:
           msg = str(error)
           if msg == 'invalid source language':
