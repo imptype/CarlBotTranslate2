@@ -4,27 +4,26 @@ Returns the translation screenshot if successful.
 """
 
 import io
+import sys
 import asyncio
+from urllib.parse import urlencode
+from PIL import Image, ImageDraw
 from fastapi import APIRouter, Request, Response
+from fastapi.responses import FileResponse
 
-router = APIRouter()+
-translator = 
-
-FONT = ImageFont.truetype('arial-unicode.ttf', size = SIZE)
-TRANSLATOR = Translator(raise_exception = True)
+router = APIRouter()
 
 @router.get('/translate')
 async def translate(request : Request):
 
   # Get global variables and stuff
-  driver = request.app.driver
   cache = request.app.cache
   stats = request.app.stats
   semaphore = request.app.semaphore
   translator = request.app.translator
+  font = request.app.font
   configs = request.app.configs
-  query_dict = dict(request.query_params)
-  query_dict.pop('t', None) # discord needs random timestamp/number
+  query_dict = dict(sorted(request.query_params.items())) # preserve order
   query = urlencode(tuple(query_dict.items()))
   loop = asyncio.get_event_loop()
 
@@ -38,54 +37,112 @@ async def translate(request : Request):
     # Check if request is malformed
     malformed = True
     if request.query_params:
-      keys, values = zip(*query_dict.items())
-      if len(keys) == 3 and keys == ('sl', 'tl', 'text'):
-        if all([1 < len(val) < 6 for val in values[:2]]):
-          if not values[2].isspace() and 1 < len(values[2]) < 4000: # max 4k in discord message
+      if len(query_dict) == 3 and tuple(query_dict) == ('sl', 'text', 'tl'):
+        if all(1 < len(query_dict[k]) < 6 for k in ('sl', 'tl')):
+          if not query_dict['text'].isspace() and 1 < len(query_dict['text']) < 4000: # max 4k in discord message
             malformed = False
     if malformed:
       stats.malformed += 1
-      return 'Request is malformed, import the tag again to fix it.'
+      return FileResponse('src/assets/brokenparams.png')
     
-    # Handle screenshots with queue system
+    # Handle image generation with queue system
     stats.waiting += 1
     try:
       await asyncio.wait_for(semaphore.acquire(), configs['TIMEOUT'])
       stats.waiting -= 1
 
-      # Wrapped in try to make sure lock is released
+      # Wrapped in try to make sure semaphore is released
       try:
         
         # Translate first
-        text = translator.translate(text, values[1], values[0])
+        try:
+          text = translator.translate(query_dict['text'], query_dict['tl'], query_dict['sl']).text
+        except ValueError as error:
+          msg = str(error)
+          if msg == 'invalid source language':
+            return FileResponse('src/assets/invalidsource.png')
+          elif msg == 'invalid destination language':
+            return FileResponse('src/assets/invaliddest.png')
+          else:
+            raise error
+
+        # Adjust if lines overflow max width
+        new_lines = []
+        lines = text.split('\n')
+        space_length = font.getlength(' ')
+        for line in lines:
+          line_length = font.getlength(line)
+          if line_length > configs['WIDTH']:
+            words = line.split(' ')
+            line = ''
+            line_length = 0 # have to use this, size for fonts are different from len()
+            for word in words:
+              word_length = font.getlength(word)
+              if word_length > configs['WIDTH']: # case can only be reached intentionally, but sure
+                if line and line_length + space_length < configs['WIDTH']: # otherwise alr on a newline
+                  line += ' '
+                prev_char = None
+                chars = tuple(word)
+                for char in chars:
+                  if prev_char: # adjust for kerning
+                    prev_length = font.getlength(prev_char)
+                    two_length = font.getlength(prev_char + char)
+                    char_length = two_length - prev_length
+                  else:
+                    char_length = font.getlength(char)
+                  prev_char = char
+                  if line_length + char_length > configs['WIDTH']:
+                    new_lines.append(line)
+                    line = char
+                    line_length = char_length
+                  else:
+                    line += char
+                    line_length += char_length
+              # add space if it's not the first word
+              elif line_length + space_length * bool(line) + word_length > configs['WIDTH']:
+                new_lines.append(line)
+                line = word
+                line_length = word_length
+              else:
+                line += ' ' * bool(line) + word
+                line_length += space_length * bool(line) + word_length 
+          new_lines.append(line)
+        text = '\n'.join(new_lines)
 
         def blocking(): # blocking pillow code
           # Draw image
           im = Image.new('1', (0, 0))
           draw = ImageDraw.Draw(im)
-          left, upper, right, lower = draw.textbbox((0, 0), text, configs['FONT'], spacing = configs['SPACING'])
-          height = lower - upper + configs['PADDING'] * 2)
+          left, upper, right, lower = draw.textbbox((0, 0), text, font, spacing = configs['SPACING'])
+          height = lower - upper + configs['PADDING'] * 2
           if height > configs['HEIGHT']:
             height = configs['HEIGHT']
-          im = Image.new('1', (right - left + configs['PADDING'] * 2, height, 0)
+          im = Image.new('1', (right - left + configs['PADDING'] * 2, height), 0)
           draw = ImageDraw.Draw(im)
-          draw.text((- left + configd['PADDING'], - upper + configs['PADDING']), text, 1, configs['FONT'], spacing = configs['SPACING'])
-          return im.save(io.BytesIO(), 'PNG')
+          draw.text((- left + configs['PADDING'], - upper + configs['PADDING']), text, 1, font, spacing = configs['SPACING'])
+          buffer = io.BytesIO()
+          #print('this')
+          im.save(buffer, 'PNG')
+          #print('that')
+          return buffer.getvalue()
 
         # Draw image to memory
         image = await loop.run_in_executor(None, blocking)
+
+        # Add to cache
+        cache[query] = image
         stats.success += 1
-                         
       except Exception as error:
         stats.failed += 1
         raise error
       finally:
-        lock.release()
+        semaphore.release()
     
     except asyncio.TimeoutError:
       stats.waiting -= 1
       stats.timeout += 1
-      return 'Request timed out, API is busy right now.'
+      return FileResponse('src/assets/timeout.png')
                          
   # Return screenshot
+  stats.transfer += sys.getsizeof(image)
   return Response(image, media_type = 'image/png')
