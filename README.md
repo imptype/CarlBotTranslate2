@@ -39,6 +39,6 @@ Request | Response
 `GET /translate?asdasdasads` | ![](https://i.imgur.com/LWOyLm8.png)
 
 ## Links
-🔗 Source: X
+🔗 Demo: https://carlbottranslate-1-p5825535.deta.app
 
 🔗 Github: https://github.com/imptype/CarlBotTranslateV2
