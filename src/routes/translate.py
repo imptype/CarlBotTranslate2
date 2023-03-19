@@ -72,14 +72,14 @@ async def translate(request : Request):
         space_length = font.getlength(' ')
         for line in lines:
           line_length = font.getlength(line)
-          if line_length > configs['WIDTH']:
+          if line_length > configs['WIDTH'] * configs['SCALE']:
             words = line.split(' ')
             line = ''
             line_length = 0 # have to use this, size for fonts are different from len()
             for word in words:
               word_length = font.getlength(word)
-              if word_length > configs['WIDTH']: # case can only be reached intentionally, but sure
-                if line and line_length + space_length < configs['WIDTH']: # otherwise alr on a newline
+              if word_length > configs['WIDTH'] * configs['SCALE']: # case can only be reached intentionally, but sure
+                if line and line_length + space_length < configs['WIDTH'] * configs['SCALE']: # otherwise alr on a newline
                   line += ' '
                 prev_char = None
                 chars = tuple(word)
@@ -91,7 +91,7 @@ async def translate(request : Request):
                   else:
                     char_length = font.getlength(char)
                   prev_char = char
-                  if line_length + char_length > configs['WIDTH']:
+                  if line_length + char_length > configs['WIDTH'] * configs['SCALE']:
                     new_lines.append(line)
                     line = char
                     line_length = char_length
@@ -99,7 +99,7 @@ async def translate(request : Request):
                     line += char
                     line_length += char_length
               # add space if it's not the first word
-              elif line_length + space_length * bool(line) + word_length > configs['WIDTH']:
+              elif line_length + space_length * bool(line) + word_length > configs['WIDTH'] * configs['SCALE']:
                 new_lines.append(line)
                 line = word
                 line_length = word_length
@@ -114,12 +114,12 @@ async def translate(request : Request):
           im = Image.new('1', (0, 0))
           draw = ImageDraw.Draw(im)
           left, upper, right, lower = draw.textbbox((0, 0), text, font, spacing = configs['SPACING'])
-          height = lower - upper + configs['PADDING'] * 2
-          if height > configs['HEIGHT']:
-            height = configs['HEIGHT']
-          im = Image.new('1', (right - left + configs['PADDING'] * 2, height), 0)
+          height = lower - upper + configs['PADDING'] * configs['SCALE'] * 2
+          if height > configs['HEIGHT'] * configs['SCALE'] :
+            height = configs['HEIGHT'] * configs['SCALE'] 
+          im = Image.new('L', ((right - left + configs['PADDING'] * 2 * configs['SCALE']), height), 0)
           draw = ImageDraw.Draw(im)
-          draw.text((- left + configs['PADDING'], - upper + configs['PADDING']), text, 1, font, spacing = configs['SPACING'])
+          draw.text((- left + configs['PADDING'] * configs['SCALE'], - upper + configs['PADDING'] * configs['SCALE']), text, 255, font, spacing = configs['SPACING'] * configs['SCALE'])
           buffer = io.BytesIO()
           #print('this')
           im.save(buffer, 'PNG')
