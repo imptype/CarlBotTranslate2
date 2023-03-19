@@ -27,7 +27,7 @@ You can use [Google Cloud Shell](shell.cloud.google.com) if you can't do stuff l
 
 Then you can access routes with that base url, e.g. `https://{app_name}-1-a1234567.deta.space/translate?sl=en&tl=es&text=hello`.
 
-Also, you can run this anywhere that offers free hosting/serverless functions, not just Deta.
+Also, you can run this anywhere that offers free hosting/serverless functions, not just on Deta.
 
 ## Examples
 
