@@ -15,13 +15,14 @@ You can use [Google Cloud Shell](shell.cloud.google.com) if you can't do stuff l
 2. Select Home Workspace (or some other place if you know what you're doing).
 3. In terminal, run `git clone https://github.com/imptype/CarlBotTranslateV2` to clone this repo.
 4. Run `curl -fsSL https://get.deta.dev/space-cli.sh | sh` to install the [Space CLI](https://deta.space/docs/en/reference/cli).
-5. Run `space login` and enter your access token when prompted.
+5. Reload terminal (close cloudshell and open a new one).
+6. Run `space login` and enter your access token when prompted.
     - Access tokens can be generated from https://deta.space -> Settings (signup/login first).
-6. Run `cd CarlBotTranslateV2` to go into the folder in terminal.
+7. Run `cd CarlBotTranslateV2` to go into the folder in terminal.
     - Make sure you're in this folder, or you might push the wrong files.
-7. Run `space new` and enter a name for your app.
-8. Run `space push` to build the app in Deta Space.
-9. Go to https://deta.space and click on your app to run it.
+8. Run `space new` and enter a name for your app.
+9. Run `space push` to build the app in Deta Space.
+10. Go to https://deta.space and click on your app to run it.
     - This opens a URL that looks like this `https://{app_name}-1-a1234567.deta.space`.
     - Custom domains are available and custom subdomains are coming in the future.
 
