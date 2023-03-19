@@ -3,8 +3,7 @@ This is a helper API that generates images with [Google Translate](https://trans
 
 This is a faster but more basic version of the original: https://github.com/imptype/CarlBotTranslate.
 
-## Example: /translate?hl=en&sl=en&tl=es&text=item
-![](https://i.imgur.com/eCFcj10.png)
+For comparison, the old one takes a few seconds to respond, this takes under a second.
 
 ## Running
 
@@ -18,7 +17,18 @@ This is a newbie guide to run your own instance, incase mine gets overcrowded.
 
 Your base URL should look like this `https://<replname>.<username>.repl.co`.
 
+## Examples
+
+Query | Response
+--- | ---
+`/translate?hl=en&sl=en&tl=es&text=item` | !c
+--- | ---
+`/translate?hl=en&sl=en&tl=es&text=item` | b
+--- | ---
+`/translate?hl=en&sl=en&tl=es&text=item` | a
+
 ## Links
 🔗 Source: https://replit.com/@imp7/CarlBotTranslate
 
 🔗 Github: https://github.com/imptype/CarlBotTranslate
+#
