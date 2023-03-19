@@ -17,7 +17,7 @@ You can use [Google Cloud Shell](shell.cloud.google.com) if you can't do stuff l
 4. Run `curl -fsSL https://get.deta.dev/space-cli.sh | sh` to install the [Space CLI](https://deta.space/docs/en/reference/cli).
 5. Reload terminal (open a new cloudshell and close the old one).
 6. Run `space login` and enter your access token when prompted.
-    - Access tokens can be generated from https://deta.space -> Settings (signup/login first).
+    - Access tokens can be generated from https://deta.space (signup/login first) -> Settings.
 7. Run `cd CarlBotTranslateV2` to go into the folder in terminal.
     - Make sure you're in this folder, or you might push the wrong files.
 8. Run `space new` and enter a name for your app.
