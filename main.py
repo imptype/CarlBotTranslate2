@@ -11,6 +11,7 @@ from src.routes import root, translate
 from googletrans import Translator
 from PIL import ImageFont 
 from fastapi import FastAPI
+# import uvicorn
 
 configs = {
   'WIDTH' : 1000, # max width of translated image, excludes padding
@@ -36,3 +37,7 @@ app.middleware('http')(middleware) # reverse deco with args
 
 app.include_router(root.router)
 app.include_router(translate.router)
+
+# uvicorn.run(app, host = '0.0.0.0')
+# you can uncomment this and requirements.txt if you're running from somewhere else
+# like repl.it, make sure you do 'pip install -r requirements.txt' to install the libs
