@@ -29,6 +29,6 @@ async def root(request : Request):
     'Size: {:,}'.format(cache._last_bytes),
     'Available: {}'.format(semaphore._value),
     '',
-    'Source: <a href="https://replit.com/@imp7/CarlBotTranslateV2">https://replit.com/@imp7/CarlBotTranslateV2</a>',
+    'Source: <a href="https://carlbottranslate-1-p5825535.deta.app/">https://carlbottranslate-1-p5825535.deta.app/</a>',
     'Github: <a href="https://github.com/imptype/CarlBotTranslateV2">https://github.com/imptype/CarlBotTranslateV2</a>'
   ]))
