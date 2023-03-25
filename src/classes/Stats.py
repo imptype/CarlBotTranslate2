@@ -19,8 +19,8 @@ class Stats:
     self.target = 0 # target error
     # self.unknown for non-discord/google
   
-  def __repr__(self):
-    return (
+  def __iter__(self):
+    yield from (
       '{}: {:,}'.format(key, val)
       for key, val in self.__dict__.keys()
     )
