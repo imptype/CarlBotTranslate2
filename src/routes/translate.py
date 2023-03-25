@@ -39,7 +39,7 @@ async def translate(request : Request):
     if request.query_params:
       if len(query_dict) == 3 and tuple(query_dict) == ('sl', 'text', 'tl'):
         if all(1 < len(query_dict[k]) < 6 for k in ('sl', 'tl')):
-          if not query_dict['text'].isspace() and 1 < len(query_dict['text']) < 4000: # max 4k in discord message
+          if not query_dict['text'].isspace() and 1 < len(query_dict['text']) < configs['LENGTH']:
             malformed = False
     if malformed:
       stats.malformed += 1
@@ -61,7 +61,9 @@ async def translate(request : Request):
           msg = str(error)
           if msg == 'invalid source language':
             return FileResponse('src/assets/invalidsource.png')
+            stats.source += 1
           elif msg == 'invalid destination language':
+            stats.destination += 1
             return FileResponse('src/assets/invaliddest.png')
           else:
             raise error
