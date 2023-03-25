@@ -16,19 +16,12 @@ async def root(request : Request):
   return HTMLResponse('<br>'.join([
     'API is online.',
     '',
-    'Started: {}'.format(stats.started),
-    'Requests: {:,}'.format(stats.requests),
-    'Waiting: {:,}'.format(stats.waiting),
-    'Timeout: {:,}'.format(stats.timeout),
-    'Malformed: {:,}'.format(stats.malformed),
-    'Success: {:,}'.format(stats.success),
-    'Failed: {:,}'.format(stats.failed),
-    'Usecache: {:,}'.format(stats.usecache),
-    'Transfer: {:,}'.format(stats.transfer),
+    stats,
     'Cached: {:,}'.format(len(cache)),
     'Size: {:,}'.format(cache._last_bytes),
-    'Available: {}'.format(semaphore._value),
+    'Available: {:,}'.format(semaphore._value),
     '',
     'Demo: <a href="https://carlbottranslate-1-p5825535.deta.app/">https://carlbottranslate-1-p5825535.deta.app/</a>',
-    'Github: <a href="https://github.com/imptype/CarlBotTranslateV2">https://github.com/imptype/CarlBotTranslateV2</a>'
+    'Github: <a href="https://github.com/imptype/CarlBotTranslateV2">https://github.com/imptype/CarlBotTranslateV2</a>',
+    'Tag Import: https://carl.gg/t/1673287'
   ]))
