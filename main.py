@@ -24,7 +24,33 @@ configs = {
 }
 
 constants.LANGUAGES.update({ # add missing languages
-  'ckb' : 'Kurdish'
+  'as' : 'assamese',
+  'ay' : 'aymara',
+  'bm' : 'bambara',
+  'bho' : 'bhojpuri', 
+  'dv' : 'dhivehi',
+  'doi' : 'dogri',
+  'ee' : 'ewe',
+  'gn' : 'guarani',
+  'ilo' : 'ilocano',
+  'rw' : 'kinyarwanda',
+  'gom' : 'konkani',
+  'kri' : 'krio',
+  'ckb' : 'kurdish (sorani)',
+  'ln' : 'lingala',
+  'mai' : 'maithili',
+  'mni-mtei' : 'meiteilon (manipuri)',
+  'lus' : 'mizo',
+  'or' : 'odia (oryia)',
+  'om' : 'oromo',
+  'qu' : 'quechua',
+  'sa' : 'sanskirit', 
+  'nso' : 'sepedi',
+  'tt' : 'tatar',
+  'ti' : 'tingrinya',
+  'ts' : 'tsonga',
+  'tk' : 'turkmen',
+  'ak' : 'twi'
 })
 
 app = FastAPI()
