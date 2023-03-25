@@ -7,7 +7,7 @@ from asyncio import Semaphore
 from src.classes.ExpiringCache import ExpiringCache
 from src.classes.Stats import Stats
 from src.events.middleware import middleware
-from src.routes import root, translate
+from src.routes import favicon, root, translate
 from googletrans import Translator
 from PIL import ImageFont 
 from fastapi import FastAPI
@@ -36,6 +36,7 @@ app.font = ImageFont.truetype('src/assets/Arial-Unicode-MS.ttf', size = 30 * con
 
 app.middleware('http')(middleware) # reverse deco with args
 
+app.include_router(favicon.router)
 app.include_router(root.router)
 app.include_router(translate.router)
 
