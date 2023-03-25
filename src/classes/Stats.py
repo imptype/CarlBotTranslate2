@@ -21,6 +21,10 @@ class Stats:
   
   def __iter__(self):
     yield from (
-      '{}: {:,}'.format(key, val)
-      for key, val in self.__dict__.keys()
+      self.started,
+      *(
+        '{}: {:,}'.format(key.capitalize(), val)
+        for key, val in self.__dict__.items()
+        if key != 'started'
+      )
     )
