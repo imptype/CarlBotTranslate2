@@ -34,8 +34,8 @@ Also, you can run this anywhere that offers free hosting/serverless functions, n
 
 Request | Response
 --- | ---
-`GET /translate?sl=en&tl=es&text=hello` | ![](https://i.imgur.com/96qQMou.png)
-`GET /translate?sl=auto&tl=zh-CN&text=In botany, a tree is a perennial plant with an elongated stem, or trunk, usually supporting branches and leaves. In some usages, the definition of a tree may be narrower, including only woody plants with secondary growth, plants that are usable as lumber or plants above a specified height. In wider definitions, the taller palms, tree ferns, bananas, and bamboos are also trees.` | ![](https://i.imgur.com/ajqFwLE.png)
+`GET /translate?sl=en&tl=es&text=hello` | ![](https://i.imgur.com/wshipQk.png)
+`GET /translate?sl=auto&tl=zh-CN&text=In botany, a tree is a perennial plant with an elongated stem, or trunk, usually supporting branches and leaves. In some usages, the definition of a tree may be narrower, including only woody plants with secondary growth, plants that are usable as lumber or plants above a specified height. In wider definitions, the taller palms, tree ferns, bananas, and bamboos are also trees.` | ![](https://i.imgur.com/GcQ6ucS.png)
 `GET /translate?asdasdasads` | ![](https://i.imgur.com/LWOyLm8.png)
 
 ## Links
