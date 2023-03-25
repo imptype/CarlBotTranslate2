@@ -38,7 +38,7 @@ async def translate(request : Request):
     malformed = True
     if request.query_params:
       if len(query_dict) == 3 and tuple(query_dict) == ('sl', 'text', 'tl'):
-        if all(1 < len(query_dict[k]) < 6 for k in ('sl', 'tl')):
+        if all(1 < len(query_dict[k]) < 9 for k in ('sl', 'tl')):
           if not query_dict['text'].isspace() and 1 < len(query_dict['text']) < configs['LENGTH']:
             malformed = False
     if malformed:
