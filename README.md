@@ -36,6 +36,7 @@ Request | Response
 --- | ---
 `GET /translate?sl=en&tl=es&text=hello` | ![](https://i.imgur.com/wshipQk.png)
 `GET /translate?sl=auto&tl=zh-CN&text=In botany, a tree is a perennial plant with an elongated stem, or trunk, usually supporting branches and leaves. In some usages, the definition of a tree may be narrower, including only woody plants with secondary growth, plants that are usable as lumber or plants above a specified height. In wider definitions, the taller palms, tree ferns, bananas, and bamboos are also trees.` | ![](https://i.imgur.com/GcQ6ucS.png)
+`GET /translate?sl=auto&tl=fr&text=Server Rules%0A1. Respect everyone.%0A2. No spamming or advertising.%0A3. No NSFW.%0A4. Talk in English.%0A5. Use the right channels.` | ![](https://i.imgur.com/pblqnpX.png)
 `GET /translate?asdasdasads` | ![](https://i.imgur.com/LWOyLm8.png)
 
 ## Links
