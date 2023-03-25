@@ -8,7 +8,7 @@ from src.classes.ExpiringCache import ExpiringCache
 from src.classes.Stats import Stats
 from src.events.middleware import middleware
 from src.routes import favicon, root, translate
-from googletrans import Translator
+from googletrans import constants, Translator
 from PIL import ImageFont 
 from fastapi import FastAPI
 # import uvicorn
@@ -22,6 +22,10 @@ configs = {
   'TIMEOUT' : 8, # 8 seconds to queue timeout
   'LENGTH' : 2000, # max characters for text, 2k is max for normal users and tags stop working near 2k anyway
 }
+
+constants.LANGUAGES.update({ # add missing languages
+  'ckb' : 'Kurdish'
+})
 
 app = FastAPI()
 app.cache = ExpiringCache(60 * 10, 30, 1024 * 1024 * 200) # keep for 10 mins, 30 sec cooldown, max 200 MB
