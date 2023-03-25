@@ -19,7 +19,8 @@ configs = {
   'PADDING' : 15, # border padding of image in pixels
   'SPACING' : 0, # spacing between new lines in pixels, default was 4
   'SCALE' : 2, # times to scale up so text is smoother
-  'TIMEOUT' : 60 * 2, # 2 mins to queue timeout
+  'TIMEOUT' : 8, # 8 seconds to queue timeout
+  'LENGTH' : 2000, # max characters for text, 2k is max for normal users and tags stop working near 2k anyway
   'URL' : 'https://translate.google.com?', # base url
 }
 
