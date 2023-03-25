@@ -14,13 +14,13 @@ class Stats:
     self.success = 0 # success image request
     self.failed = 0 # image failed request, should record error in deta space logs
     self.usecache = 0 # used from cache count
-    self.transfer = 0 # total bytes transferred
+    self.transfer = 0 # total bytes transferred for success
     self.source = 0 # source error
     self.target = 0 # target error
     # self.unknown for non-discord/google
   
-  def __str__(self):
-    return '\n'.join(
+  def __repr__(self):
+    return (
       '{}: {:,}'.format(key, val)
       for key, val in self.__dict__.keys()
     )
