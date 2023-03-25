@@ -63,7 +63,7 @@ async def translate(request : Request):
             return FileResponse('src/assets/invalidsource.png')
             stats.source += 1
           elif msg == 'invalid destination language':
-            stats.destination += 1
+            stats.target += 1
             return FileResponse('src/assets/invaliddest.png')
           else:
             raise error
