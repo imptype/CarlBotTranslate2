@@ -16,7 +16,7 @@ async def root(request : Request):
   return HTMLResponse('<br>'.join([
     'API is online.',
     '',
-    stats,
+    *stats,
     'Cached: {:,}'.format(len(cache)),
     'Size: {:,}'.format(cache._last_bytes),
     'Available: {:,}'.format(semaphore._value),
