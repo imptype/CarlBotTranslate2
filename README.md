@@ -42,3 +42,5 @@ Request | Response
 🔗 Demo: https://carlbottranslate-1-p5825535.deta.app
 
 🔗 Github: https://github.com/imptype/CarlBotTranslateV2
+
+🔗 Tag Import: https://carl.gg/t/1673287
