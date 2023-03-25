@@ -21,7 +21,6 @@ configs = {
   'SCALE' : 2, # times to scale up so text is smoother
   'TIMEOUT' : 8, # 8 seconds to queue timeout
   'LENGTH' : 2000, # max characters for text, 2k is max for normal users and tags stop working near 2k anyway
-  'URL' : 'https://translate.google.com?', # base url
 }
 
 app = FastAPI()
