@@ -41,7 +41,7 @@ constants.LANGUAGES.update({ # add missing languages
   'mai' : 'maithili',
   'mni-mtei' : 'meiteilon (manipuri)',
   'lus' : 'mizo',
-  'or' : 'odia (oryia)',
+  'or' : 'odia (oriya)',
   'om' : 'oromo',
   'qu' : 'quechua',
   'sa' : 'sanskirit', 
