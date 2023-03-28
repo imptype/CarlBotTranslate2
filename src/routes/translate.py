@@ -124,9 +124,7 @@ async def translate(request : Request):
           draw = ImageDraw.Draw(im)
           draw.text((- left + configs['PADDING'] * configs['SCALE'], - upper + configs['PADDING'] * configs['SCALE']), text, 255, font, spacing = configs['SPACING'] * configs['SCALE'])
           buffer = io.BytesIO()
-          #print('this')
           im.save(buffer, 'PNG')
-          #print('that')
           return buffer.getvalue()
 
         # Draw image to memory
