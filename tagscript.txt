@@ -1,5 +1,5 @@
 {=(COMMENT): You don't need to change anything in this tag apart from the constant variables, so don't edit below.}
-{=(COMMENT): You can use https://github.com/imptype/CarlBotTranslateV2 to run your own instance of  the API.}
+{=(COMMENT): You can use https://github.com/imptype/CarlBotTranslateV2 to run your own instance of the API.}
 
 {=(COMMENT): Set up the constant variables. You can customize these, for example, changing the prefix.}
 {=(COMMENT): The values in both default language variables must be language codes only, no spaces anywhere.}
@@ -70,7 +70,7 @@ Do `{PREFIX}{TAG_NAME} {SUB_COMMAND}` for more help and a list of languages.}
 
 **Examples:**
 `!translate english spanish hello` - translates "hello" from English to Spanish.
-`!translate en es hello`  - like above but written using language codes.
+`!translate en es hello` - like above but written using language codes.
 `!translate auto chinese hello` - detected language to Chinese (Simplified).
 `!translate French hello` - from default source language to French.
 `!translate hello` - from default source to default target language.
