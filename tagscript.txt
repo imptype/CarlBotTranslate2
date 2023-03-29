@@ -1,0 +1,252 @@
+{=(COMMENT): You don't need to change anything in this tag apart from the constant variables, so don't edit below.}
+{=(COMMENT): You can use https://github.com/imptype/CarlBotTranslateV2 to run your own instance of  the API.}
+
+{=(COMMENT): Set up the constant variables. You can customize these, for example, changing the prefix.}
+{=(COMMENT): The values in both default language variables must be language codes only, no spaces anywhere.}
+{=(PREFIX):!} 
+{=(TAG_NAME):translate}
+{=(DEFAULT_SOURCE_LANGUAGE_CODE):auto}
+{=(DEFAULT_TARGET_LANGUAGE_CODE):en}
+{=(SUB_COMMAND):help}
+{=(SHOW_HINTS):true}
+{=(COLOR_GOOD):0092C9}
+{=(COLOR_INFO):EFDC75}
+{=(COLOR_ERROR):FF3333}
+{=(TRANSLATE_EMOJI):<:Google_Translate_logo:1088511288977666119>}
+{=(API_BASE):https://carlbottranslate-1-p5825535.deta.app/translate}
+{=(GOOGLE_BASE):https://translate.google.com}
+
+ 
+{=(COMMENT): For future reference, to add a new language, add it with the same index position to either CODES and LANGUAGES or CODES_SPECIAL and LANGUAGES_SPECIAL, then update the text in CODES_LANGUAGES preferably in alphabetical order, then update the API to include the new language code.}
+
+
+{=(COMMENT): Set up the available languages. These are ordered alphabetically and will break if edited incorrectly.}
+{=(COMMENT): Indexes are relied on to get the correct names and underscores "_" are replaced with spaces later.}
+{=(CODES):auto af sq am ar hy as ay az bm eu be bn bho bs bg ca ceb ny co hr cs da dv doi nl en eo et ee tl fi fr fy gl ka de el gn gu ht ha haw iw hi hmn hu is ig ilo id ga it ja jw kn kk km rw gom ko kri ky lo la lv ln lt lb mk mai mg ms ml mt mi mr lus mn ne no om ps fa pl pt pa qu ro ru sm sa gd nso sr st sn sd si sk sl so es su sw sv tg ta tt te th ti ts tr tk ak uk ur ug uz vi cy xh yi yo zu}
+{=(LANGUAGES):Detect_Language Afrikaans Albanian Amharic Arabic Armenian Assamese Aymara Azerbaijani Bambara Basque Belarusian Bengali Bhojpuri Bosnian Bulgarian Catalan Cebuano Chichewa Corsican Croatian Czech Danish Dhivehi Dogri Dutch English Esperanto Estonian Ewe Filipino Finnish French Frisian Galician Georgian German Greek Guarani Gujarati Haitian_Creole Hausa Hawaiian Hebrew Hindi Hmong Hungarian Icelandic Igbo Ilocano Indonesian Irish Italian Japanese Javanese Kannada Kazakh Khmer Kinyarwanda Konkani Korean Krio Kyrgyz Lao Latin Latvian Lingala Lithuanian Luxembourgish Macedonian Maithili Malagasy Malay Malayalam Maltese Maori Marathi Mizo Mongolian Nepali Norwegian Oromo Pashto Persian Polish Portuguese Punjabi Quechua Romanian Russian Samoan Sanskirit Scots_Gaelic Sepedi Serbian Sesotho Shona Sindhi Sinhala Slovak Slovenian Somali Spanish Sundanese Swahili Swedish Tajik Tamil Tatar Telugu Thai Tingrinya Tsonga Turkish Turkmen Twi Ukrainian Urdu Uyghur Uzbek Vietnamese Welsh Xhosa Yiddish Yoruba Zulu}
+
+
+{=(COMMENT): These languages are a special case that need brackets around the second word.}
+{=(CODES_SPECIAL):zh-CN zh-TW ku ckb mni-Mtei my or}
+{=(LANGUAGES_SPECIAL):Chinese_Simplified Chinese_Traditional Kurdish_Kurmanji Kurdish_Sorani Meiteilon_Manipuri Myanmar_Burmese Odia_Oriya}
+
+
+{=(COMMENT): Set up the language help text manually since there is no way to intersect items in the lists efficiently.}
+{=(CODES_LANGUAGES):Afrikaans `af` Albanian `sq` Amharic `am` Arabic `ar` Armenian `hy` Assamese `as` Aymara `ay` Azerbaijani `az` Bambara `bm` Basque `eu` Belarusian `be` Bengali `bn` Bhojpuri `bho` Bosnian `bs` Bulgarian `bg` Catalan `ca` Cebuano `ceb` Chichewa `ny` Chinese (Simplified) `zh-cn` Chinese (Traditional) `zh-tw` Corsican `co` Croatian `hr` Czech `cs` Danish `da` Dhivehi `dv` Dogri `doi` Dutch `nl` English `en` Esperanto `eo` Estonian `et` Ewe `ee` Filipino `tl` Finnish `fi` French `fr` Frisian `fy` Galician `gl` Georgian `ka` German `de` Greek `el` Guarani `gn` Gujarati `gu` Haitian Creole `ht` Hausa `ha` Hawaiian `haw` Hebrew `iw` Hindi `hi` Hmong `hmn` Hungarian `hu` Icelandic `is` Igbo `ig` Ilocano `ilo` Indonesian `id` Irish `ga` Italian `it` Japanese `ja` Javanese `jw` Kannada `kn` Kazakh `kk` Khmer `km` Kinyarwanda `rw` Konkani `gom` Korean `ko` Krio `kri` Kurdish (Kurmanji) `ku` Kurdish (Sorani) `ckb` Kyrgyz `ky` Lao `lo` Latin `la` Latvian `lv` Lingala `ln` Lithuanian `lt` Luxembourgish `lb` Macedonian `mk` Maithili `mai` Malagasy `mg` Malay `ms` Malayalam `ml` Maltese `mt` Maori `mi` Marathi `mr` Meiteilon (Manipuri) `mni-mtei` Mizo `lus` Mongolian `mn` Myanmar (Burmese) `my` Nepali `ne` Norwegian `no` Odia (Oriya) `or` Oromo `om` Pashto `ps` Persian `fa` Polish `pl` Portuguese `pt` Punjabi `pa` Quechua `qu` Romanian `ro` Russian `ru` Samoan `sm` Sanskirit `sa` Scots Gaelic `gd` Sepedi `nso` Serbian `sr` Sesotho `st` Shona `sn` Sindhi `sd` Sinhala `si` Slovak `sk` Slovenian `sl` Somali `so` Spanish `es` Sundanese `su` Swahili `sw` Swedish `sv` Tajik `tg` Tamil `ta` Tatar `tt` Telugu `te` Thai `th` Tingrinya `ti` Tsonga `ts` Turkish `tr` Turkmen `tk` Twi `ak` Ukrainian `uk` Urdu `ur` Uyghur `ug` Uzbek `uz` Vietnamese `vi` Welsh `cy` Xhosa `xh` Yiddish `yi` Yoruba `yo` Zulu `zu`}
+
+
+{=(COMMENT): Set up TagScript helper variables.}
+{=():}
+{=(CHAIN):%$@}
+
+
+{=(COMMENT): This is a switch variable, used to help reference the right embed variables for each flow.}
+{=(COMMENT): Using switch and conditionals over check variables to avoid more if statement comparisons.}
+{=(COMMENT): This helps avoid the 20k mutated characters limit and is more readable than lots of nested ifs.} 
+{=(i):}
+
+
+{=(COMMENT): Get the number of arguments given, don't check more than 3, saves characters.}
+{=(args_count):{index({CHAIN}):{args(+4)} {CHAIN}}}
+
+
+{=(COMMENT): First alternative flow, if no arguments were given.}
+{=(COMMENT): Color variables are always defined by reference so it's easier to change them all from one place.}
+{{if({args_count}==0):=(i):1}}
+{=(title1):{TRANSLATE_EMOJI}  Insufficient Arguments!}
+{=(desc1):No arguments were given.
+The command takes at least 1 argument, you gave `0`.
+
+**Usage:** `{PREFIX}{TAG_NAME} [source_language] [target_language] <text>`
+Do `{PREFIX}{TAG_NAME} {SUB_COMMAND}` for more help and a list of languages.}
+{=(color1):COLOR_ERROR}
+
+{=(COMMENT): Second alternative flow, if the first and only argument is the sub command.}
+{=(COMMENT): Every flow after the first one will usually check if an alternative flow from before ran already.}
+{=(COMMENT): Large variables like CODES_LANGUAGES are only called when required to save characters.}
+{{all({args_count}==1|{1}=={SUB_COMMAND}):=(i):2}}
+{=(title2):{TRANSLATE_EMOJI}  Command `{PREFIX}{TAG_NAME}` Help}
+{=(desc2):**Usage:** `!translate [source_language] [target_language] <text>`
+
+**Examples:**
+`!translate english spanish hello` - translates "hello" from English to Spanish.
+`!translate en es hello`  - like above but written using language codes.
+`!translate auto chinese hello` - detected language to Chinese (Simplified).
+`!translate French hello` - from default source language to French.
+`!translate hello` - from default source to default target language.
+`!translate help` - shows this help page sub command.
+
+**Languages:**
+{{if({i}==2):CODES_LANGUAGES}}
+
+**Notes:**
+- Languages are optional, case-insensitive, specified by name or code.
+- Two worded languages can be resolved from first word like `Chinese`.
+- Use full name for overlapping languages like `Chinese_Traditional` or `zh-TW`.
+- Text argument can have newlines, at ~2k characters tag stops responding.
+- API may break (rate-limited) from high traffic; self-host guide in tag's source.}
+{=(color2):COLOR_INFO}
+
+
+{=(COMMENT): Combine codes with special cases and extra variable for case-insensitivity.}
+{=(COMMENT): Also another a place to save characters since the help page takes up so much characters.}
+{=(codes):{CODES} {CODES_SPECIAL}}
+{=(ecodes):{lower:{{if({i}!=2):codes}}}}
+
+
+{=(COMMENT): Combine languages, same thing as above.}
+{=(langs):{LANGUAGES} {LANGUAGES_SPECIAL}}
+{=(elangs):{lower:{{if({i}!=2):langs}}}}
+
+
+{=(COMMENT): Get the indexes of the default languages.}
+{=(defaultindex1):{m:trunc({index({DEFAULT_SOURCE_LANGUAGE_CODE}):{ecodes}}+1)}}
+{=(defaultindex2):{m:trunc({index({DEFAULT_TARGET_LANGUAGE_CODE}):{ecodes}}+1)}}
+
+
+{=(COMMENT): Third alternative flow, if the default source language code was not found.}
+{{all({i}==|{defaultindex1}==0):=(i):3}}
+{=(title3):{TRANSLATE_EMOJI}  Invalid Default Source Language!}
+{=(desc3):The default source language code `{DEFAULT_SOURCE_LANGUAGE_CODE}` is invalid.
+This tag has been incorrectly configured, ask a moderator to fix it.
+Remember, the default value must be a valid language code, no spaces in between.}
+{=(color3):COLOR_ERROR}
+
+
+{=(COMMENT): Fourth alternative flow, if the default target language code was not found.}
+{{all({i}==|{defaultindex2}==0):=(i):4}}
+{=(title4):{TRANSLATE_EMOJI}  Invalid Default Target Language!}
+{=(desc4):The default source language code `{DEFAULT_TARGET_LANGUAGE_CODE}` is invalid.
+This tag has been incorrectly configured, ask a moderator to fix it.
+Remember, the default value must be a valid language code, no spaces in between.}
+{=(color4):COLOR_ERROR}
+
+
+{=(COMMENT): Fifth alternative flow, if the default target language is detect language.}
+{{all({i}==|{defaultindex2}==1):=(i):5}}
+{=(title5):{TRANSLATE_EMOJI}  Default Target Language cannot be Auto!}
+{=(desc5):Only the source language can be `auto`/`Detect Language`.
+The default target language was set to `auto` which is incorrectly configured, ask a moderator to fix it.
+Remember, the default value must be a valid language code, no spaces in between.}
+{=(color5):COLOR_ERROR}
+
+
+{=(COMMENT): Sixth alternative flow, if the default source language is the same as the default target language.}
+{{all({i}==|{defaultindex1}=={defaultindex2}):=(i):6}}
+{=(title6):{TRANSLATE_EMOJI}  Default Source and Target Languages cannot be the same!!}
+{=(desc6):The default source language (`{langs({defaultindex1})}`) and default target language (`{langs({defaultindex2})}`) cannot be the same.
+This tag was incorrectly configured, ask a moderator to fix it.
+Remember, the default value must be a valid language code, no spaces in between.}
+{=(color6):COLOR_ERROR}
+
+
+{=(COMMENT): Determine the first argument language index, given language name or code and is case-insensitive.}
+{=(COMMENT): First index is when it finds a match from the first word, e.g. Chinese becomes Chinese Simplified.}
+{=(larg1):{lower:{1}}}
+{=(codeindex1):{index({larg1}):{ecodes}}}
+{=(firstindex1):{index({CHAIN}):{replace({larg1}_,{CHAIN} ):{elangs}}}}
+{=(langindex1):{if({firstindex1}!=-1):{firstindex1}|{index({larg1}):{elangs}}}}
+{=(index1):{if({codeindex1}!=-1):{m:trunc({codeindex1}+1)}|{if({langindex1}!=-1):{m:trunc({langindex1}+1)}|-1}}}
+
+
+{=(COMMENT): Determine the second argument language index, this is the same as above.}
+{=(larg2):{lower:{2}}}
+{=(codeindex2):{index({larg2}):{ecodes}}}
+{=(firstindex2):{index({CHAIN}):{replace({larg2}_,{CHAIN} ):{elangs}}}}
+{=(langindex2):{if({firstindex2}!=-1):{firstindex2}|{index({larg2}):{elangs}}}}
+{=(index2):{if({codeindex2}!=-1):{m:trunc({codeindex2}+1)}|{if({langindex2}!=-1):{m:trunc({langindex2}+1)}|-1}}}
+
+
+{=(COMMENT): Adjust the indexes for the 4 possible permutations shown below.}
+{=(COMMENT): 1 - !translate <text> - First and second argument aren't languages = default for both, text index is 1.}
+{=(COMMENT): 2 - !translate <tl> <text> - First is a language but second isn't = default for source, text index is 2.}
+{=(COMMENT): 3 - !translate <text*> - Second is a language but first isn't = both default, swap index, text index is 1.}
+{=(COMMENT): 4 - !translate <sl> <tl> - First and second are languages = no defaults, text index is 3.}
+{=(swap):{all({index1}!=-1|{index2}==-1):1}}
+{=(usedefault1):{any({swap}!=|{index1}==-1|{args_count}==1):1}}
+{=(usedefault2):{all({swap}==|{index2}==-1):1}}
+{{if({swap}!=):=(index2):{index1}|{if({usedefault2}==1):=(index2):{defaultindex2}}}}
+{{if({usedefault1}==1):=(index1):{defaultindex1}}}
+
+
+{=(COMMENT): Get language name and codes from indexes.}
+{=(source_code):{codes({index1})}}
+{=(source_lang):{langs({index1})}}
+{=(target_code):{codes({index2})}}
+{=(target_lang):{langs({index2})}}
+
+
+{=(COMMENT): Add brackets to second word for special case languages, otherwise just replace the underscore.}
+{=(source_lang):{if({in({source_lang}):{LANGUAGES_SPECIAL}}==true):{source_lang(1):_} ({source_lang(2):_})|{replace(_, ):{source_lang}}}}
+{=(target_lang):{if({in({target_lang}):{LANGUAGES_SPECIAL}}==true):{target_lang(1):_} ({target_lang(2):_})|{replace(_, ):{target_lang}}}}
+
+
+{=(COMMENT): The start index for the text argument, when default languages are used this is moved back.}
+{=(textindex):3}
+{{if({usedefault1}==1):=(textindex):{m:trunc({textindex}-1)}}}
+{{if({usedefault2}==1):=(textindex):{m:trunc({textindex}-1)}}}
+
+
+{=(COMMENT): Seventh alternative flow, if no text argument was given, varies when default languages are used.}
+{{all({i}==|{textindex}>{args_count}):=(i):7}}
+{=(title7):{TRANSLATE_EMOJI}  No Text Argument!}
+{=(desc7):The text argument was not found! 
+
+Here is the breakdown of your arguments:
+Source language: `{source_lang}` {if({usedefault1}==1):(default)}
+Target language: `{target_lang}`
+Text: `???`
+
+Therefore add the text you want to translate next time.}
+{=(color7):COLOR_ERROR}
+
+
+{=(COMMENT): Eighth alternative flow, if the target language is detect language.}
+{{all({i}==|{index2}==1):=(i):8}}
+{=(title8):{TRANSLATE_EMOJI}  Target Language cannot be Auto!}
+{=(desc8):Only the source language can be `auto`/`Detect Language`.}
+{=(color8):COLOR_ERROR}
+
+
+{=(COMMENT): Final alternative flow, if the source language is the same as the target language.}
+{{all({i}==|{index1}=={index2}):=(i):9}}
+{=(title9):{TRANSLATE_EMOJI}  Source and Target Languages cannot be the same!!}
+{=(desc9):The source language (`{source_lang}`) {if({usedefault1}==1):(default)} and target language (`{target_lang}`) cannot be the same.
+Use different languages next time.}
+{=(color9):COLOR_ERROR}
+
+
+{=(COMMENT): Build extra hint text if they specified the language from name instead of code.}
+{=(hintprefix):`💡` **Hint}
+{=(hintinfix): #}
+{=(hintpostfix)::** }
+{=(hint1):Source language can be shortened to `{source_code}`.}
+{=(hint2):Target language can be shortened to `{target_code}`.}
+{=(hintcheck1):{all({codeindex1}==-1|{usedefault1}==):1}}
+{=(hintcheck2):{all({codeindex{if({swap}==):2|1}}==-1|{usedefault2}==):1}}
+{=(enumcheck):{m:trunc({if({hintcheck1}==1):1|0}+{if({hintcheck2}==1):1|0})}==2}
+{=(hint):{if({SHOW_HINTS}==true):{if({hintcheck1}==1):{hintprefix}{if({enumcheck}):{hintinfix}1}{hintpostfix}{hint1}}{if({hintcheck2}==1):{if({hintcheck1}==1):
+}{hintprefix}{if({enumcheck}):{hintinfix}2}{hintpostfix}{hint2}}}}
+{=(hintline):{if({hint}!=):
+}}
+
+
+{=(COMMENT): Main flow's output, for successful translations, description and image are in the embed builder.}
+{=(COMMENT): They take too much characters, stuffing code in the embed builder saves characters somehow.}
+{=(title):{TRANSLATE_EMOJI}  {source_lang} to {target_lang} Translation}
+{=(color):COLOR_GOOD}
+
+
+{=(COMMENT): Finally build the embed, based on the switch variable.}
+{embed(title):{title{i}}}
+{{if({i}!=):embed(description):{desc{i}}}}
+{embed(color):#{{color{i}}}}
+
+
+===================== EMBED DESCRIPTION =====================
+
+{if({i}==):View the full translation on [Google Translate]({GOOGLE_BASE}?sl={source_code}&tl={target_code}&text={urlencode(+):{args({textindex}+)}})!{hintline}{hintline}{hint}}
+
+===================== EMBED IMAGE =====================
+
+{if({i}==):{API_BASE}?sl={source_code}&tl={target_code}&text={urlencode(+):{args({textindex}+)}}}
