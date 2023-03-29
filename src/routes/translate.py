@@ -40,7 +40,7 @@ async def translate(request : Request):
       if len(query_dict) == 3 and tuple(query_dict) == ('sl', 'text', 'tl'):
         if all(1 < len(query_dict[k]) < 9 for k in ('sl', 'tl')):
           if query_dict['tl'] != 'auto': # target cannot be detect
-            if not query_dict['text'].isspace() and 1 < len(query_dict['text']) < configs['LENGTH']:
+            if not query_dict['text'].isspace() and 0 < len(query_dict['text']) < configs['LENGTH']:
               malformed = False
     if malformed:
       stats.malformed += 1
