@@ -61,6 +61,7 @@ The command takes at least 1 argument, you gave `0`.
 Do `{PREFIX}{TAG_NAME} {SUB_COMMAND}` for more help and a list of languages.}
 {=(color1):COLOR_ERROR}
 
+
 {=(COMMENT): Second alternative flow, if the first and only argument is the sub command.}
 {=(COMMENT): Every flow after the first one will usually check if an alternative flow from before ran already.}
 {=(COMMENT): Large variables like CODES_LANGUAGES are only called when required to save characters.}
@@ -89,14 +90,14 @@ Do `{PREFIX}{TAG_NAME} {SUB_COMMAND}` for more help and a list of languages.}
 
 
 {=(COMMENT): Combine codes with special cases and extra variable for case-insensitivity.}
-{=(COMMENT): Also another a place to save characters since the help page takes up so much characters.}
+{=(COMMENT): Also another a place to save characters since the help page takes up so many characters.}
 {=(codes):{CODES} {CODES_SPECIAL}}
-{=(ecodes):{lower:{{if({i}!=2):codes}}}}
+{=(ecodes):{lower:{{if({i}==):codes}}}}
 
 
 {=(COMMENT): Combine languages, same thing as above.}
 {=(langs):{LANGUAGES} {LANGUAGES_SPECIAL}}
-{=(elangs):{lower:{{if({i}!=2):langs}}}}
+{=(elangs):{lower:{{if({i}==):langs}}}}
 
 
 {=(COMMENT): Get the indexes of the default languages.}
@@ -159,8 +160,8 @@ Remember, the default value must be a valid language code, no spaces in between.
 
 {=(COMMENT): Adjust the indexes for the 4 possible permutations shown below.}
 {=(COMMENT): 1 - !translate <text> - First and second argument aren't languages = default for both, text index is 1.}
-{=(COMMENT): 2 - !translate <tl> <text> - First is a language but second isn't = default for source, text index is 2.}
-{=(COMMENT): 3 - !translate <text*> - Second is a language but first isn't = both default, swap index, text index is 1.}
+{=(COMMENT): 2 - !translate <tl> <text> - First is a language but second isn't = source default, swap, text index is 2.}
+{=(COMMENT): 3 - !translate <text*> - Second is a language but first isn't = both default, text index is 1.}
 {=(COMMENT): 4 - !translate <sl> <tl> - First and second are languages = no defaults, text index is 3.}
 {=(swap):{all({index1}!=-1|{index2}==-1):1}}
 {=(usedefault1):{any({swap}!=|{index1}==-1|{args_count}==1):1}}
@@ -232,7 +233,7 @@ Use different languages next time.}
 
 
 {=(COMMENT): Main flow's output, for successful translations, description and image are in the embed builder.}
-{=(COMMENT): They take too much characters, stuffing code in the embed builder saves characters somehow.}
+{=(COMMENT): They take too many characters, stuffing code in the embed builder saves characters somehow.}
 {=(title):{TRANSLATE_EMOJI}  {source_lang} to {target_lang} Translation}
 {=(color):COLOR_GOOD}
 
