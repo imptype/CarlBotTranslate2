@@ -1,6 +1,6 @@
 """
 /translate route.
-Returns the translation screenshot if successful.
+Returns the translation image if successful.
 """
 
 import io
